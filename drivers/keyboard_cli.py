@@ -1,4 +1,6 @@
 import sys
+from enum import Enum
+
 from rc_common import netcfg
 from rc_common.RC_Commands import Commands
 import msvcrt
@@ -19,6 +21,8 @@ class KeyMap:
     ESC = b'\x1b'
     CTRLC = b'\x03'
     ARROW_FLAG = b'\xe0'
+    # weird, check msdn vk ref
+    FKEY_FLAG = '\x00'
 
 
 class Console:
@@ -26,10 +30,13 @@ class Console:
     FLUSH_STR = " " * 20
 
 
-DEFAULT_SPEED = 50
+class Speed(Enum):
+    DEFAULT_SPEED = 60
+    LOW_SPEED = DEFAULT_SPEED
+    HIGH_SPEED = 70
 
 
-# noinspection PyBroadException
+# noinspection PyBroadException,PyTypeChecker
 def start():
     clr.init()
     sys.stderr.write(Console.CLS)
@@ -40,6 +47,7 @@ def start():
     print("\n")
 
     client = None
+    current_speed = Speed.DEFAULT_SPEED
     # ping_assert(client)
 
     try:
@@ -75,13 +83,19 @@ def start():
                 client.request(Commands.LEFT)
                 print("\rTurn Left" + Console.FLUSH_STR, end='', flush=True)
             elif arrow == Arrows.UP:
-                client.request(Commands.FORWARD, {"speed": DEFAULT_SPEED})
-                print("\rMove Forward" + Console.FLUSH_STR, end='', flush=True)
+                client.request(Commands.FORWARD, {"speed": current_speed.value})
+                print("\rMove Forward @ PWR: " + current_speed.value + Console.FLUSH_STR, end='', flush=True)
             elif arrow == Arrows.DOWN:
-                client.request(Commands.BACKWARD, {"speed": DEFAULT_SPEED})
-                print("\rMove Backwards" + Console.FLUSH_STR, end='', flush=True)
+                client.request(Commands.BACKWARD, {"speed": current_speed.value})
+                print("\rMove Backwards @ PWR: " + Console.FLUSH_STR, end='', flush=True)
             else:
                 print("\rUnknown arrow/keycode" + Console.FLUSH_STR + str(arrow))
+        elif key == b'1':
+            current_speed = Speed.LOW_SPEED
+            print('\rSet Speed to ' + current_speed.value + Console.FLUSH_STR)
+        elif key == b'2':
+            current_speed = Speed.HIGH_SPEED
+            print('\rSet Speed to ' + current_speed.value + Console.FLUSH_STR)
         else:
             pass
 
