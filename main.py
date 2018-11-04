@@ -1,4 +1,4 @@
-from drivers import keyboard_cli, keyboard_cli_alt
+from drivers import keyboard_cli, keyboard_cli_alt_old
 
 
 def main():
@@ -12,7 +12,7 @@ def main():
         keyboard_cli.start()
     elif choice == "2":
         print("Starting alt driver cli")
-        keyboard_cli_alt.start()
+        keyboard_cli_alt_old.start()
     else:
         print("invalid choice" + choice)
 
