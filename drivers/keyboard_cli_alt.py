@@ -3,6 +3,7 @@ from enum import Enum
 
 from rc_common import netcfg
 from rc_common.RC_Commands import Commands
+# from rc_common.Direction import Motion
 import msvcrt
 from procbridge.procbridge import ProcBridge
 import colorama as clr
@@ -33,7 +34,7 @@ class Console:
 class Speed(Enum):
     DEFAULT_SPEED = 60
     LOW_SPEED = DEFAULT_SPEED
-    HIGH_SPEED = 70
+    HIGH_SPEED = 75
 
 
 # noinspection PyBroadException,PyTypeChecker
@@ -48,6 +49,7 @@ def start():
 
     client = None
     current_speed = Speed.DEFAULT_SPEED
+    # last_direction = Motion.FORWARD
     # ping_assert(client)
 
     try:
@@ -83,16 +85,16 @@ def start():
             print("\rTurn Left" + Console.FLUSH_STR, end='', flush=True)
         elif key == b'i':
             client.request(Commands.FORWARD, {"speed": current_speed.value})
-            print("\rMove Forward @ PWR: " + current_speed.value + Console.FLUSH_STR, end='', flush=True)
+            print("\rMove Forward @ PWR: " + str(current_speed.value) + Console.FLUSH_STR, end='', flush=True)
         elif key == b',':
             client.request(Commands.BACKWARD, {"speed": current_speed.value})
-            print("\rMove Backwards @ PWR: " + Console.FLUSH_STR, end='', flush=True)
+            print("\rMove Backwards @ PWR: " + str(current_speed.value) + Console.FLUSH_STR, end='', flush=True)
         elif key == b'1':
             current_speed = Speed.LOW_SPEED
-            print('\rSet Speed to ' + current_speed.value + Console.FLUSH_STR, end='', flush=True)
+            print('\rSet Speed to ' + str(current_speed.value) + Console.FLUSH_STR, end='', flush=True)
         elif key == b'2':
             current_speed = Speed.HIGH_SPEED
-            print('\rSet Speed to ' + current_speed.value + Console.FLUSH_STR, end='', flush=True)
+            print('\rSet Speed to ' + str(current_speed.value) + Console.FLUSH_STR, end='', flush=True)
         else:
             pass
 

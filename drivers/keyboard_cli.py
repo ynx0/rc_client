@@ -84,10 +84,10 @@ def start():
                 print("\rTurn Left" + Console.FLUSH_STR, end='', flush=True)
             elif arrow == Arrows.UP:
                 client.request(Commands.FORWARD, {"speed": current_speed.value})
-                print("\rMove Forward @ PWR: " + current_speed.value + Console.FLUSH_STR, end='', flush=True)
+                print("\rMove Forward @ PWR: " + str(current_speed.value) + Console.FLUSH_STR, end='', flush=True)
             elif arrow == Arrows.DOWN:
                 client.request(Commands.BACKWARD, {"speed": current_speed.value})
-                print("\rMove Backwards @ PWR: " + Console.FLUSH_STR, end='', flush=True)
+                print("\rMove Backwards @ PWR: " + str(current_speed.value) + Console.FLUSH_STR, end='', flush=True)
             else:
                 print("\rUnknown arrow/keycode" + Console.FLUSH_STR + str(arrow))
         elif key == b'1':
