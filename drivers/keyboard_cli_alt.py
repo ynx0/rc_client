@@ -67,7 +67,7 @@ def start():
             # print("\rChill out dawg")
             continue
 
-        if key == b's':
+        if key == b'k':
             client.request(Commands.STOP, {})
             print(clr.Fore.RED + "\rStop The Car" + clr.Style.RESET_ALL + Console.FLUSH_STR, end='', flush=True)
         elif key == b'e' or key == KeyMap.CTRLC or key == KeyMap.ESC:
