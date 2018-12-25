@@ -2,7 +2,7 @@
 # from rc_common import netcfg
 # from rc_common.RC_Commands import Commands
 # import msvcrt
-# from procbridge.procbridge import ProcBridge
+# from procbridge.procbridge import Client
 #
 #
 # # adapted from https://stackoverflow.com/a/34497639/3807967
@@ -36,12 +36,12 @@
 #
 #     # print("Connecting using mdns hostname: " + host_mdns)
 #     # try:
-#     #     client = ProcBridge(host_mdns, port)
+#     #     client = Client(host_mdns, port)
 #     # except Exception:
 #     #     print("Error, unable to use mdns, falling back to static ip address: " + host + ":" + str(port))
 #
 #     try:
-#         client = ProcBridge(netcfg.HOST, netcfg.HDW_PORT)
+#         client = Client(netcfg.HOST, netcfg.HDW_PORT)
 #     except Exception:
 #         print("Error: unable to connect using static ip address")
 #

@@ -5,7 +5,7 @@ from rc_common import netcfg
 from rc_common.RC_Commands import Commands
 # from rc_common.Direction import Motion
 import msvcrt
-from procbridge.procbridge import ProcBridge
+from procbridge import Client
 import colorama as clr
 import time
 
@@ -53,7 +53,7 @@ def start():
     # ping_assert(client)
 
     try:
-        client = ProcBridge(netcfg.HOST, netcfg.HDW_PORT)
+        client = Client(netcfg.HOST, netcfg.HDW_PORT)
     except Exception:
         print("Error: unable to connect using static ip address")
 
