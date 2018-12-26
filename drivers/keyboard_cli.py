@@ -4,6 +4,8 @@ from enum import Enum
 from rc_common import netcfg
 from rc_common.RC_Commands import Commands
 import msvcrt
+# noinspection PyUnresolvedReferences
+import libs
 from procbridge import Client
 import colorama as clr
 import time
