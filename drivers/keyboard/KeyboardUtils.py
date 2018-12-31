@@ -15,7 +15,9 @@ def getch():
 
     key = getch.__call__()
     if key == KeyList.ARROW_FLAG:
-        key = getch.__call__()
+        key += getch.__call__()
+        # append the actual arrow key to the arrow flag so that we know its an arrow and still
+
 
     return key
 
@@ -27,11 +29,13 @@ class KeyList:
     # weird, check msdn vk ref
     FKEY_FLAG = '\x00'
 
-    class Arrows:
-        LEFT = 75
-        RIGHT = 77
-        UP = 72
-        DOWN = 80
+
+class Arrows:
+    # check the implementation of getch to see why it is this way
+    LEFT = KeyList.ARROW_FLAG + bytes([75])  # https://stackoverflow.com/a/21017834/3807967
+    RIGHT = KeyList.ARROW_FLAG + bytes([77])
+    UP = KeyList.ARROW_FLAG + bytes([72])
+    DOWN = KeyList.ARROW_FLAG + bytes([80])
 
 
 class Console:
@@ -62,5 +66,3 @@ class KeyControls(Enum):
     SET_SPEED_1 = 0x05
     SET_SPEED_2 = 0x06
     EXIT = 0x07
-
-

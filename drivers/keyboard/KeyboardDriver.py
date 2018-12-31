@@ -3,11 +3,9 @@ import sys
 import colorama as clr
 
 import drivers.keyboard.KeyboardUtils as KBDUtils
-from drivers.keyboard.KeyboardUtils import Console, KeyList, KeyDebouncer, KeyControls
-from rc_common.RC_Commands import Commands
 from drivers.Driver import Driver
-
-Arrows = KeyList.Arrows
+from drivers.keyboard.KeyboardUtils import Console, KeyDebouncer, KeyControls
+from rc_common.RC_Commands import Commands
 
 
 class Speed:
@@ -29,7 +27,7 @@ class KeyboardDriver(Driver):
         return key in self.keymap[control]
 
     @staticmethod
-    def print_help():
+    def print_usage():
         print("Use the arrow keys to drive the car")
         print("'s' to stop")
         print("'e' to exit")
@@ -39,7 +37,7 @@ class KeyboardDriver(Driver):
         # console initialization stuff
         clr.init()
         sys.stderr.write(Console.CLS)
-        self.print_help()
+        self.print_usage()
 
         # driver specific init code
         client = self.get_client()
@@ -59,6 +57,7 @@ class KeyboardDriver(Driver):
 
 
             key = KBDUtils.getch()
+            # print('key is ' + str(key))
 
             # stop
             if self.is_control_activated(key, KeyControls.STOP):
@@ -90,9 +89,9 @@ class KeyboardDriver(Driver):
                 print("\rMove Backward @ PWR: " + str(self.current_speed) + Console.FLUSH_STR, end='', flush=True)
 
             elif self.is_control_activated(key, KeyControls.LEFT):
-                client.request(Commands.RIGHT)
-                print("\rTurn Right" + Console.FLUSH_STR, end='', flush=True)
-
-            elif self.is_control_activated(key, KeyControls.RIGHT):
                 client.request(Commands.LEFT)
                 print("\rTurn Left" + Console.FLUSH_STR, end='', flush=True)
+
+            elif self.is_control_activated(key, KeyControls.RIGHT):
+                client.request(Commands.RIGHT)
+                print("\rTurn Right" + Console.FLUSH_STR, end='', flush=True)
