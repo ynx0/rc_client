@@ -1,4 +1,4 @@
-from procbridge import ProcBridge as Client
+from procbridge.procbridge import ProcBridge as Client
 
 from rc_common import netcfg
 

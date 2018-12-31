@@ -4,7 +4,7 @@ import math
 
 # from procbridge.procbridge import Client
 # from rc_common import netcfg
-from procbridge import ProcBridge as Client
+from procbridge.procbridge import ProcBridge as Client
 
 from drivers.xbox_controller import XboxController, Side
 
