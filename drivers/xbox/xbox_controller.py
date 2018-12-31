@@ -57,6 +57,7 @@ class Side(Enum):
     RIGHT = auto()
 
 
+# noinspection PyPep8Naming
 class Joystick:
     def __init__(self, side: Side):
         self._side = side

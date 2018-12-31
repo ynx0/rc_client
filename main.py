@@ -1,6 +1,6 @@
-from drivers import xbox
 from drivers.keyboard.KeyboardDriver import KeyboardDriver
 from drivers.keyboard.KeyboardUtils import KeyControls, KeyList, Arrows
+from drivers.xbox.XboxDriver import XboxDriver
 
 default_keymap = {
     KeyControls.STOP: [b's'],
@@ -47,7 +47,8 @@ def main():
         kbd_alt.start()
     elif choice == "3":
         print("Starting Xbox Controller")
-        xbox.start()
+        xbox_drv = XboxDriver("Xbox Driver", "xbox_00")
+        xbox_drv.start()
     else:
         print("invalid choice" + choice)
 
