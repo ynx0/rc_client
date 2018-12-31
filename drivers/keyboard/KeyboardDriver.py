@@ -42,7 +42,7 @@ class KeyboardDriver(Driver):
         # driver specific init code
         client = self.get_client()
         self.current_speed = Speed.DEFAULT_SPEED
-        debouncer = KeyDebouncer(0.15)  # maybe parametrize?
+        # debouncer = KeyDebouncer(0.15)  # maybe parametrize?
 
         print(
             clr.Style.BRIGHT + clr.Fore.LIGHTWHITE_EX + clr.Back.LIGHTBLACK_EX + "Last action:" + clr.Style.RESET_ALL)
@@ -51,12 +51,14 @@ class KeyboardDriver(Driver):
         while True:
             # debouncing code
             # this basically filters rapid keystrokes/commands to server
-            debouncer.update()
-            if debouncer.should_filter():
-                continue  # skip processing any controls
+            # debouncer.update()
+            # if debouncer.should_filter():
+            #     print('filtering')
+            #     continue  # skip processing any controls
 
 
             key = KBDUtils.getch()
+
             # print('key is ' + str(key))
 
             # stop

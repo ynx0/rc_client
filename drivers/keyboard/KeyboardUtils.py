@@ -52,6 +52,7 @@ class KeyDebouncer:
 
     def update(self):
         self.delta = time.time() - self.prev_time
+        self.prev_time = self.delta
 
     def should_filter(self):
         return self.delta <= self.tolerance
