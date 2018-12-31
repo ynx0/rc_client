@@ -13,6 +13,14 @@ class Driver:
     def start(self):
         print("Driver: " + self.name + "@" + self.id)
 
+    def stop(self):
+        print("Unimplemented stop function for driver: {}#{}".format(self.name, self.id))
+        raise RuntimeError
+
+    @staticmethod
+    def print_usage():
+        print("Default Driver Usage")
+
     @staticmethod
     def get_client() -> Client:
         client = None
