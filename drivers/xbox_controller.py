@@ -88,7 +88,7 @@ class Trigger:
         self.raw_value = 0
         # MARK - Normalization
         self.__TRIGGER_RANGE = Range(0, 255)
-        self.__TRGR_TARGET_RANGE = Range(0, 1)
+        self.__TRIGGER_TARGET_RANGE = Range(0, 1)
 
     @property
     def side(self):
@@ -99,7 +99,7 @@ class Trigger:
         return self.__normalize(self.raw_value)
 
     def __normalize(self, value):
-        return normalize(value, self.__TRIGGER_RANGE, self.__TRGR_TARGET_RANGE)
+        return normalize(value, self.__TRIGGER_RANGE, self.__TRIGGER_TARGET_RANGE)
 
 
 class XboxController:
