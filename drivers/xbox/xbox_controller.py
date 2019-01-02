@@ -2,6 +2,7 @@ from enum import Enum, auto
 from threading import Thread
 
 import inputs
+from inputs import UnpluggedError
 
 
 # TODO Move all these classes to separate files
@@ -110,8 +111,10 @@ class XboxController:
             self.xbox = inputs.devices.gamepads[controller_num]
         except NameError:
             # todo, have better logic/handling, maybe not error out and use an "initialized variable", and keep polling for xbox?
-            raise inputs.UnpluggedError("Error: Xbox connected gamepad")
+            raise UnpluggedError("Error: Xbox connected gamepad")
 
+        self.controller_num = controller_num
+        self.plugged_in = True
         self.RIGHT_Z = 0
         self.LEFT_Z = 0
         self.A = False
@@ -137,9 +140,26 @@ class XboxController:
     def xbox_event_loop(self):
         print("Starting")
         while 1:
-            event = self.xbox.read()[0]
-            if event.code is not 'SYN_REPORT':
-                self.handle_event(event)
+            if self.is_hardware_pluggedin():
+                self.plugged_in = True
+                event = None
+
+                try:
+                    event = self.xbox.read()[0]
+                except UnpluggedError:
+                    # this should never happen
+                    # but we still need it to be "graceful"
+                    self.plugged_in = False
+
+                if event.code is not 'SYN_REPORT':
+                    self.handle_event(event)
+            else:
+                print('Waiting for xbox to reconnect')
+                self.plugged_in = False
+
+    def is_hardware_pluggedin(self):
+        gamepads = inputs.devices.gamepads
+        return len(gamepads) and gamepads[self.controller_num] is not None
 
     def handle_event(self, event):
         # print("code" + event.code)
