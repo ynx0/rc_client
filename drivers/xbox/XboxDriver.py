@@ -24,7 +24,7 @@ class XboxDriver(Driver):
 
         # MARK - Joystick Settings
         self.TURN_THRESHOLD = options.get('TURN_THRESHOLD', 0.4)
-        self.STOP_THRESHOLD = options.get('STOP_THRESHOLD', 5)
+        self.STOP_THRESHOLD = options.get('STOP_THRESHOLD', 5)  # uses raw controller values [0, 255]
         # all values below this value send a stop command instead of an smaller and smaller speed value
 
         # checks
@@ -43,9 +43,17 @@ class XboxDriver(Driver):
         rel_max = maximum - minimum
         return (rel_max / (1 + (math.pow(math.e, (-rate * value + offset))))) + minimum
 
+    @staticmethod
+    def linear(x, m, b):
+        # x is the value to map
+        # m is rate of change
+        # b is y intercept
+        return m * x + b
+
     def get_speed(self, trigger_value):
         # TRIGGERED REEEEEEEEEEEEEEE
-        return self.sigmoid(trigger_value, self.MIN_SPEED, self.MAX_SPEED, self.RATE, self.OFFSET)
+        return self.linear(trigger_value, self.MAX_SPEED, self.MIN_SPEED)
+        # return self.sigmoid(trigger_value, self.MIN_SPEED, self.MAX_SPEED, self.RATE, self.OFFSET)
 
     def start(self):
         # debouncer = ButtonDebouncer(0.15)
@@ -57,7 +65,7 @@ class XboxDriver(Driver):
 
         while 1:
             if not controller.RIGHT_TRIGGER.raw_value == 0:
-                print("raw right: {}".format(controller.RIGHT_TRIGGER.raw_value))
+                print("percent right: {}".format(controller.RIGHT_TRIGGER.value))
 
             # braking
             if controller.B is True:
