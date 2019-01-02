@@ -82,11 +82,11 @@ class KeyboardDriver(Driver):
                 print('\rSet Speed to ' + str(self.current_speed) + Console.FLUSH_STR)
 
             # up
-            elif self.is_control_activated(key, KeyControls.UP):
+            elif self.is_control_activated(key, KeyControls.FORWARD):
                 client.request(Commands.FORWARD, {"speed": self.current_speed})
                 print("\rMove Forward @ PWR: " + str(self.current_speed) + Console.FLUSH_STR, end='', flush=True)
 
-            elif self.is_control_activated(key, KeyControls.DOWN):
+            elif self.is_control_activated(key, KeyControls.BACKWARD):
                 client.request(Commands.BACKWARD, {"speed": self.current_speed})
                 print("\rMove Backward @ PWR: " + str(self.current_speed) + Console.FLUSH_STR, end='', flush=True)
 

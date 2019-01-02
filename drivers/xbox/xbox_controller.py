@@ -109,9 +109,9 @@ class XboxController:
     def __init__(self, controller_num=0):
         try:
             self.xbox = inputs.devices.gamepads[controller_num]
-        except NameError:
+        except IndexError:
             # todo, have better logic/handling, maybe not error out and use an "initialized variable", and keep polling for xbox?
-            raise UnpluggedError("Error: Xbox connected gamepad")
+            print('Error: Controller is unplugged')
 
         self.controller_num = controller_num
         self.plugged_in = True
