@@ -33,7 +33,7 @@ alt_keymap = {
 def main():
     print("Which input method would you like to activate")
     print("1 - Keyboard")
-    print("2 - Keyboard Alt")  # todo implement a keymap for it later
+    print("2 - Keyboard Alt")
     print("3 - Xbox")
     choice = input("Choose a number -->")
 
