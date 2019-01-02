@@ -24,8 +24,12 @@ class XboxDriver(Driver):
 
         # MARK - Joystick Settings
         self.TURN_THRESHOLD = options.get('TURN_THRESHOLD', 0.4)
-        self.STOP_THRESHOLD = options.get('STOP_THRESHOLD',
-                                          10)  # all values below this value send a stop command instead of an smaller and smaller speed value
+        self.STOP_THRESHOLD = options.get('STOP_THRESHOLD', 5)
+        # all values below this value send a stop command instead of an smaller and smaller speed value
+
+        # checks
+        assert 0 <= self.STOP_THRESHOLD <= 255
+
 
         self.controller = XboxController()
 
@@ -74,13 +78,14 @@ class XboxDriver(Driver):
             forward_speed = self.get_speed(controller.RIGHT_TRIGGER.value)
             backward_speed = self.get_speed(controller.LEFT_TRIGGER.value)
 
-            if forward_speed <= self.STOP_THRESHOLD and not controller.is_trigger_pressed(Side.LEFT):  # \
+            # we use the raw value because the 
+            if controller.RIGHT_TRIGGER.raw_value <= self.STOP_THRESHOLD and not controller.LEFT_TRIGGER.raw_value > 0:  # \
                 # if a trigger is pressed and it is less than the stopping threshold, we gotta stop
                 # also make sure that the other one is not being pressed so as not to interfere with the controls
                 print('stopping')
                 client.request(Commands.STOP)
 
-            elif backward_speed <= self.STOP_THRESHOLD and not controller.is_trigger_pressed(Side.RIGHT):
+            elif controller.LEFT_TRIGGER.raw_value <= self.STOP_THRESHOLD and not controller.RIGHT_TRIGGER.raw_value > 0:
                 # same deal here
                 print('stopping')
                 client.request(Commands.STOP)

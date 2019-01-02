@@ -48,7 +48,7 @@ def main():
     elif choice == "3":
         print("Starting Xbox Controller")
         xbox_drv = XboxDriver("Xbox Driver", "xbox_00", {
-            'STOP_THRESHOLD': 5
+            'STOP_THRESHOLD': 1
         })
         xbox_drv.start()
     else:
