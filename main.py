@@ -6,8 +6,8 @@ default_keymap = {
     KeyControls.STOP: [b's'],
     KeyControls.EXIT: [b'e', KeyList.ESC, KeyList.CTRLC],
     # directions
-    KeyControls.UP: [Arrows.UP],
-    KeyControls.DOWN: [Arrows.DOWN],
+    KeyControls.FORWARD: [Arrows.UP],
+    KeyControls.BACKWARD: [Arrows.DOWN],
     KeyControls.LEFT: [Arrows.LEFT],
     KeyControls.RIGHT: [Arrows.RIGHT],
     # speed controls
@@ -19,8 +19,8 @@ alt_keymap = {
     KeyControls.STOP: [b's'],
     KeyControls.EXIT: [b'e', KeyList.ESC, KeyList.CTRLC],
     # directions
-    KeyControls.UP: [b'i'],
-    KeyControls.DOWN: [b','],
+    KeyControls.FORWARD: [b'i'],
+    KeyControls.BACKWARD: [b','],
     KeyControls.LEFT: [b'j'],
     KeyControls.RIGHT: [b'l'],
     # speed controls

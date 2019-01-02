@@ -59,8 +59,8 @@ class KeyDebouncer:
 
 
 class KeyControls(Enum):
-    UP = 0x00
-    DOWN = 0x01
+    FORWARD = 0x00
+    BACKWARD = 0x01
     LEFT = 0x02
     RIGHT = 0x03
     STOP = 0x04
