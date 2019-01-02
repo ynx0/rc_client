@@ -13,9 +13,8 @@ class XboxDriver(Driver):
     def __init__(self, name, drv_id, options=None):
         super().__init__(name, drv_id)
 
-
         if options is None:  # thank u intellij very cool
-            options = {}     # https://docs.python-guide.org/writing/gotchas/#mutable-default-arguments
+            options = {}  # https://docs.python-guide.org/writing/gotchas/#mutable-default-arguments
 
         # MARK - Trigger settings
         self.MIN_SPEED = options.get('MIN_SPEED', 0)
@@ -53,17 +52,16 @@ class XboxDriver(Driver):
         client = self.get_client()
 
         while 1:
+            if not controller.RIGHT_TRIGGER.raw_value == 0:
+                print("raw right: {}".format(controller.RIGHT_TRIGGER.raw_value))
 
             # braking
             if controller.B is True:
                 print('e-brake enabled')
-
-                print('sending stop command')
                 client.request(Commands.STOP)
                 continue  # skip all other controls processing
 
             # turning
-
             # the triggers are processed with same branch to prevent duplicate controls being sent
             if controller.LEFT_JOYSTICK.X > self.TURN_THRESHOLD:
                 print("turning right")
@@ -76,14 +74,18 @@ class XboxDriver(Driver):
             forward_speed = self.get_speed(controller.RIGHT_TRIGGER.value)
             backward_speed = self.get_speed(controller.LEFT_TRIGGER.value)
 
-            if (controller.is_trigger_pressed(Side.RIGHT) and forward_speed <= self.STOP_THRESHOLD) \
-                    or (controller.is_trigger_pressed(Side.LEFT) and backward_speed <= self.STOP_THRESHOLD):
+            if forward_speed <= self.STOP_THRESHOLD and not controller.is_trigger_pressed(Side.LEFT):  # \
                 # if a trigger is pressed and it is less than the stopping threshold, we gotta stop
+                # also make sure that the other one is not being pressed so as not to interfere with the controls
+                print('stopping')
+                client.request(Commands.STOP)
+
+            elif backward_speed <= self.STOP_THRESHOLD and not controller.is_trigger_pressed(Side.RIGHT):
+                # same deal here
                 print('stopping')
                 client.request(Commands.STOP)
             else:
-                # print("sending speed to move forward " + str(speed))
-                # target_speed = max(forward_speed, backward_speed)  # only send bigger of either speed
+
                 if forward_speed > backward_speed:
                     print('going forward ' + str(forward_speed))
                     client.request(Commands.FORWARD, {"speed": forward_speed})
