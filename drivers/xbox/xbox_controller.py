@@ -251,19 +251,9 @@ class XboxController:
             self.RIGHT_TRIGGER.raw_value = state
 
     def is_trigger_pressed(self, side: Side):
+        # do it based on raw_values, b/c more accurate
+        # and more performant
         if side is Side.LEFT:
-            return self.LEFT_TRIGGER.value > 0
+            return self.LEFT_TRIGGER.raw_value > 0
         elif side is Side.RIGHT:
-            return self.RIGHT_TRIGGER.value > 0
-
-    # def get_trigger(self, side):
-    #     if side is Side.LEFT:
-    #         return self
-    #     elif side is Side.RIGHT:
-    #         return self.__get_normalized_trigger(self.RIGHT_TRIGGER)
-
-    # def get_joystick(self, side) -> Joystick:
-    #     if side is Side.LEFT:
-    #         return self.LEFT_JOYSTICK
-    #     elif side is Side.RIGHT:
-    #         return self.RiGHT_JOYSTICK
+            return self.RIGHT_TRIGGER.raw_value > 0
