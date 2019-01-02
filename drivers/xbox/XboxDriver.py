@@ -86,15 +86,12 @@ class XboxDriver(Driver):
                 client.request(Commands.STOP)
                 continue  # skip all other controls processing
 
-
             if controller.X is True:
                 self.drive_mode = DriveMode.NORMAL
                 print('Drive Mode Set to Normal')
             elif controller.Y is True:
                 self.drive_mode = DriveMode.SPORT
                 print('Drive Mode Set to SPORT')
-
-
 
 
             # MARK - Joystick Processing
@@ -110,20 +107,20 @@ class XboxDriver(Driver):
 
             # MARK - speed processing
 
-
-
             # we use the raw value because it is independent of any processing algorithm used
             # also it is more performant b/c it doesn't go through the normalization function
-            if controller.RIGHT_TRIGGER.raw_value <= self.STOP_THRESHOLD and not controller.LEFT_TRIGGER.raw_value > 0:  # \
-                # if a trigger is pressed and it is less than the stopping threshold, we gotta stop
-                # also make sure that the other one is not being pressed so as not to interfere with the controls
+
+            # if a trigger is pressed and it is less than the stopping threshold, we gotta stop
+            # also make sure that the other one is not being pressed so as not to interfere with the controls
+
+            if controller.RIGHT_TRIGGER.raw_value <= self.STOP_THRESHOLD and not controller.LEFT_TRIGGER.raw_value > 0:
                 print('stopping')
                 client.request(Commands.STOP)
 
             elif controller.LEFT_TRIGGER.raw_value <= self.STOP_THRESHOLD and not controller.RIGHT_TRIGGER.raw_value > 0:
-                # same deal here
                 print('stopping')
                 client.request(Commands.STOP)
+
             else:
                 # forward and backward motion
                 # only calculate if we are actually gonna use it
@@ -133,9 +130,11 @@ class XboxDriver(Driver):
                 if forward_speed > backward_speed:
                     print('going forward ' + str(forward_speed))
                     client.request(Commands.FORWARD, {"speed": forward_speed})
+
                 elif backward_speed > forward_speed:
                     print('going backward ' + str(backward_speed))
                     client.request(Commands.BACKWARD, {"speed": backward_speed})
+
                 else:
-                    # Stop pressing down both triggers you buffoon
                     pass
+                    # Stop pressing down both triggers you buffoon
